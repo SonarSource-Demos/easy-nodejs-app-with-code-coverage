@@ -1,0 +1,7 @@
+node_modules
+.scannerwork
+coverage
+.sonarlint
+.vscode
+scripts
+archives
