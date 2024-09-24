@@ -10,11 +10,11 @@ This project is a simple NodeJS application using ExpressJS for building the ser
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/SonarSource-Demos/easy-nodejs-app-with-code-coverage.git
     ```
 2. Navigate to the project directory:
     ```sh
-    cd easy-nodejs-project
+    cd easy-nodejs-app-with-code-coverage
     ```
 3. Install the dependencies:
     ```sh
@@ -27,10 +27,14 @@ This project is a simple NodeJS application using ExpressJS for building the ser
     ```sh
     npm start
     ```
-2. The server will be running at `http://localhost:3000`.
+2. The server will be running at `http://localhost:9020`.
 
 ## 🧪 Running Tests 
 
 To run the tests and generate code coverage, use the following command:
 ```sh
 npm test
+```
+
+## 📝 License
+MIT License
