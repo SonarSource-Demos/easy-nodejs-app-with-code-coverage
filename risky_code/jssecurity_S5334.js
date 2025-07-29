@@ -1,8 +1,9 @@
-// S5334: MongoDB $where injection
 const { MongoClient } = require('mongodb');
 const express = require('express');
 const app = express();
-const mongoURI = 'mongodb://localhost:27017';
+
+const mongoURI = 'mongodb://localhost:27017'; // Replace with your actual MongoDB URI
+
 app.get('/your-endpoint', async (req, res) => {
   const client = new MongoClient(mongoURI);
   try {
@@ -12,8 +13,13 @@ app.get('/your-endpoint', async (req, res) => {
     const product = await products.findOne(query); // Noncompliant
     res.json(product);
   } catch (err) {
+    console.error(err);
     res.status(500).send('Internal Server Error');
   } finally {
     await client.close();
   }
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
