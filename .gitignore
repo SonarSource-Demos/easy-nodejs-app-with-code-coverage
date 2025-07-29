@@ -6,3 +6,4 @@ coverage
 scripts/scanner.sh
 archives
 .owasp-dependency-check
+.DS_Store
