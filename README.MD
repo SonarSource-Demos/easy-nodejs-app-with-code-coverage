@@ -67,24 +67,35 @@ This project is a simple NodeJS application using ExpressJS for building the ser
 - `DELETE /api/customers/:customer_id`   - Delete a customer
 - `GET    /health`                       - Health check
 
+## 🧑‍💻 Writing & Running Unit Tests
+
+### Writing Unit Tests
+- Unit tests are written using [AvaJS](https://github.com/avajs/ava).
+- Test files are located alongside the code they test, typically in a `tests/` subfolder within each feature directory.
+    - Example: `src/app/routes/customers/create-one-customer/tests/response.test.js`
+- To add a new test:
+    1. Create a new `.test.js` file in the appropriate `tests/` folder.
+    2. Write your test cases using AvaJS syntax.
+    3. Export or require any modules you need to test.
+
+### Running Unit Tests
+- To run all unit tests:
+    ```sh
+    npm test
+    ```
+- This command runs AvaJS and also generates a code coverage report using [c8](https://github.com/bcoe/c8).
+
 ## 🧪 Running Tests & Code Coverage
 To run the tests and generate code coverage:
 ```sh
 npm test
 ```
-Coverage reports are generated in the `coverage/` directory.
+- Coverage reports are generated in the `coverage/` directory as both HTML and lcov formats.
+- To view the HTML report, open `coverage/index.html` in your browser.
 
-## 📝 Scripts
-- `npm start`         - Start the server
-- `npm test`          - Run tests with coverage
-- `npm run cleansarif`- Clean SARIF report for SonarQube
-
-## 🔒 Software Composition Analysis (SCA)
-To run SCA analysis using OWASP Dependency-Check:
-```sh
-sh ./scripts/sca_scan.sh
-node ./scripts/clean_sarif_report.js
-```
+### How Code Coverage Works
+- The `npm test` script uses `c8` to instrument your code and collect coverage data while running tests.
+- The main coverage file is `coverage/lcov.info`, which is used by SonarScanner for analysis.
 
 ## 📊 SonarQube/SonarCloud Integration
 Make sure `sonar-project.properties` is configured. Then run:
@@ -112,6 +123,31 @@ sonar-scanner \
   -Dsonar.scanner.debug=true \
   -X
 ```
+
+### How SonarScanner Picks Up Coverage
+- SonarScanner is configured (see `sonar-project.properties`) to look for the `coverage/lcov.info` file.
+- When you run SonarScanner (locally or in CI), it automatically imports the coverage data for reporting.
+
+### GitHub Actions Integration
+- In CI/CD, GitHub Actions can be set up to:
+    1. Install dependencies
+    2. Run `npm test` to generate the coverage report
+    3. Run SonarScanner, which picks up `coverage/lcov.info`
+- Example workflow steps:
+    ```yaml
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests with coverage
+      run: npm test
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      with:
+        args: >
+          -Dsonar.organization=sonarcloud-demos
+          -Dsonar.projectKey=SonarCloud-Demos_easy-nodejs-app-with-code-coverage
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+    ```
+- This ensures that every push or pull request is analyzed with up-to-date test coverage in SonarCloud/SonarQube.
 
 ## 🤝 Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
