@@ -54,12 +54,14 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+      - name: Cache coverage
+        uses: actions/cache@v4
         with:
-          name: coverage
           path: coverage
-  
+          key: ${{ runner.os }}-coverage-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-
+
   sonarcloud-main:
     name: 🐳 Main Branch - SonarCloud
     runs-on: ubuntu-latest
@@ -82,10 +84,13 @@ jobs:
             ${{ runner.os }}-npm-
       - name: Install dependencies
         run: npm install
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v4
+      - name: Restore coverage cache
+        uses: actions/cache@v4
         with:
-          name: coverage
+          path: coverage
+          key: ${{ runner.os }}-coverage-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5.3.0
         env:
@@ -125,10 +130,13 @@ jobs:
             ${{ runner.os }}-npm-
       - name: Install dependencies
         run: npm install
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v4
+      - name: Restore coverage cache
+        uses: actions/cache@v4
         with:
-          name: coverage
+          path: coverage
+          key: ${{ runner.os }}-coverage-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5.3.0
         env:
@@ -168,10 +176,13 @@ jobs:
             ${{ runner.os }}-npm-
       - name: Install dependencies
         run: npm install
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v4
+      - name: Restore coverage cache
+        uses: actions/cache@v4
         with:
-          name: coverage
+          path: coverage
+          key: ${{ runner.os }}-coverage-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5.3.0
         env:
